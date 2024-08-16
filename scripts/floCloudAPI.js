@@ -250,7 +250,7 @@
         return new Promise((resolve, reject) => {
             if (_inactive.has(snID))
                 return reject(`${snID} is not active`);
-            let fetcher, sn_url = "https://cors-anywhere.herokuapp.com/" + supernodes[snID].uri;
+            let fetcher, sn_url = "https://" + supernodes[snID].uri;
             if (typeof data === "string")
                 fetcher = fetch(sn_url + "?" + data);
             else if (typeof data === "object" && data.method === "POST")
