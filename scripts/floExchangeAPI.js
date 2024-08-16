@@ -1,4 +1,4 @@
-'use strict';
+
 
 (function (EXPORTS) { //floExchangeAPI v1.2.1
     const exchangeAPI = EXPORTS;
@@ -491,7 +491,7 @@
             let curPos = fetch_api.curPos || 0;
             if (curPos >= nodeList.length)
                 return reject(ExchangeError(ExchangeError.NODES_OFFLINE_CODE, 'No Node online! Refresh the page or try again later', errorCode.NODES_OFFLINE));
-            let url = "https://" + nodeURL[nodeList[curPos]];
+            let url = "https://cors-anywhere.herokuapp.com/" + nodeURL[nodeList[curPos]];
             (options ? fetch(url + api, options) : fetch(url + api))
                 .then(result => resolve(result)).catch(error => {
                     console.warn(nodeList[curPos], 'is offline');
@@ -613,6 +613,7 @@
             if (!(Object.values(serviceList).includes(service)))
                 return reject(ExchangeError(ExchangeError.BAD_REQUEST_CODE, 'service required', errorCode.INVALID_VALUE));
             fetch_api('/get-sink?service=' + service)
+            .then(response => response.json())
                 .then(result => {
                     responseParse(result, false)
                         .then(result => resolve(result))

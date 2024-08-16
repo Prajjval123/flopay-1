@@ -219,8 +219,9 @@
             var wsConn = new WebSocket("wss://" + supernodes[snID].uri + "/");
             wsConn.onopen = evt => resolve(wsConn);
             wsConn.onerror = evt => {
-                _inactive.add(snID)
-                reject(`${snID} is unavailable`)
+                console.error(`WebSocket Error: ${evt.message || evt}`);
+                _inactive.add(snID);
+                reject(`${snID} is unavailable`);
             }
         })
     }
@@ -249,7 +250,7 @@
         return new Promise((resolve, reject) => {
             if (_inactive.has(snID))
                 return reject(`${snID} is not active`);
-            let fetcher, sn_url = "https://" + supernodes[snID].uri;
+            let fetcher, sn_url = "https://cors-anywhere.herokuapp.com/" + supernodes[snID].uri;
             if (typeof data === "string")
                 fetcher = fetch(sn_url + "?" + data);
             else if (typeof data === "object" && data.method === "POST")
